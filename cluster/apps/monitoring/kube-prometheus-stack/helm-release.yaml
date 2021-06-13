@@ -101,6 +101,10 @@ spec:
         tls:
         - hosts:
           - "grafana.${SECRET_DOMAIN}"
+      persistence:
+        enabled: true
+        storageClassName: local-path
+        size: 10Gi
       enabled: true
     kubelet:
       enabled: true
