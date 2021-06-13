@@ -20,7 +20,6 @@ spec:
     alertmanager:
       config:
         global:
-          slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
           resolve_timeout: 5m
         receivers:
         - name: 'null'
@@ -40,10 +39,6 @@ spec:
                 {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
                 {{ end }}
               {{ end }}
-        - name: 'webhook'
-          webhook_configs:
-          - url: "http://192.168.1.35:9000/hooks/webhook-ups"
-            send_resolved: false
         route:
           group_by: ['alertname', 'job']
           group_wait: 30s
@@ -72,9 +67,8 @@ spec:
       ingress:
         enabled: true
         pathType: Prefix
-        ingressClassName: "traefik"
         annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+          kubernetes.io/ingress.class: "nginx"
         hosts:
         - "alert-manager.${SECRET_DOMAIN}"
         tls:
@@ -84,7 +78,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "rook-ceph-block"
+              storageClassName: local-path
               resources:
                 requests:
                   storage: 1Gi
