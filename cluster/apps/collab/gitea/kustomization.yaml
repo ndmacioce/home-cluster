@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - gitea-pvc.yaml
 - helm-release.yaml
+- postgres-pvc.yaml
