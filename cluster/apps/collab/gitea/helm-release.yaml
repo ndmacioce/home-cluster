@@ -75,7 +75,4 @@ spec:
         serviceMonitor:
           enabled: true
           namespace: default
-  valuesFrom:
-  - kind: Secret
-    name: "gitea-helm-values"
-    optional: false
+          
