@@ -1,0 +1,14 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    k8s-app: uptime-kuma
+  name: uptime-kuma
+  namespace: monitoring
+spec:
+  ports:
+    - port: 80
+      targetPort: 3001
+  selector:
+    k8s-app: uptime-kuma
