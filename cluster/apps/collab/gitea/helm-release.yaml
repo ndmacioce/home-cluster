@@ -63,10 +63,10 @@ spec:
           DISABLE_REGISTRATION: true
           REQUIRE_SIGNIN_VIEW: true
         mailer:
-          enabled: false
-          #host: "smtp.${SECRET_DOMAIN}:25"
-          #from: "git@${SECRET_DOMAIN}"
-          #mailer_type: smtp
+          enabled: true
+          host: "smtp.${SECRET_DOMAIN}:25"
+          from: "git@${SECRET_DOMAIN}"
+          mailer_type: smtp
       database:
         builtIn:
           postgresql:
