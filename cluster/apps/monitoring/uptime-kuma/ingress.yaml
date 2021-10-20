@@ -15,7 +15,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: uptime-kuma-svc
+            name: uptime-kuma-web
             port:
               number: 80
   tls:

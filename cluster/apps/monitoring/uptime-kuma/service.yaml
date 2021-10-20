@@ -4,7 +4,7 @@ apiVersion: v1
 metadata:
   labels:
     k8s-app: uptime-kuma
-  name: uptime-kuma-svc
+  name: uptime-kuma-web
   namespace: monitoring
 spec:
   ports:
