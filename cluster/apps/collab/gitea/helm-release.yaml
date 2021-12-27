@@ -66,12 +66,9 @@ spec:
           enabled: true
           host: "smtp.${SECRET_DOMAIN}:25"
           from: "git@${SECRET_DOMAIN}"
-          mailer_type: smtp
-      database:
-        builtIn:
-          postgresql:
-            enabled: true
+          mailer_type: smtp    
     postgresql:
+      enabled: true
       persistence:
         # storageClass: "longhorn"
         existingClaim: gitea-postgresql-pvc
