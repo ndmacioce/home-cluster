@@ -17,7 +17,7 @@ spec:
     spec:
       # renovate: registryUrl=https://dl.gitea.io/charts/
       chart: gitea
-      version: 4.1.1
+      version: 5.0.0
       sourceRef:
         kind: HelmRepository
         name: gitea-charts
@@ -26,7 +26,7 @@ spec:
   values:
     image:
       repository: gitea/gitea
-      tag: 1.15.6
+      tag: 1.15.9
       pullPolicy: IfNotPresent
     persistence:
       enabled: true
@@ -66,12 +66,9 @@ spec:
           enabled: true
           host: "smtp.${SECRET_DOMAIN}:25"
           from: "git@${SECRET_DOMAIN}"
-          mailer_type: smtp
-      database:
-        builtIn:
-          postgresql:
-            enabled: true
+          mailer_type: smtp    
     postgresql:
+      enabled: true
       persistence:
         # storageClass: "longhorn"
         existingClaim: gitea-postgresql-pvc
