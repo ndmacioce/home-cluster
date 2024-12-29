@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nginx-deployment
+  name: &app nginx
   namespace: flux-system
 spec:
   targetNamespace: default
   commonMetadata:
     labels:
-      app.kubernetes.io/name: nginx
-  path: ./kubernetes/apps/nick-apps
+      app.kubernetes.io/name: *app
+  path: ./kubernetes/apps/nick-apps/nginx
   prune: true
   sourceRef:
     kind: GitRepository
@@ -23,6 +23,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  namespace: default
 spec:
   replicas: 1
   selector:
