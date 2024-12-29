@@ -1,3 +1,24 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nginx-deployment
+  namespace: flux-system
+spec:
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: nginx
+  path: ./kubernetes/apps/nick-apps
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-kubernetes
+  wait: false
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -17,7 +38,6 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
-
 ---
 apiVersion: v1
 kind: Service
