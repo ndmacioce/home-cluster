@@ -1,0 +1,9 @@
+---
+kubernetes:
+  children:
+    controllers:
+      hosts:
+        "nuc-01":
+          ansible_user: "nick"
+          ansible_host: "192.168.70.2"
+          ansible_ssh_private_key_file: "/Users/nmacioce/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/PublicKeys/31a614db8943ae09057c57330f530b28.pub"
