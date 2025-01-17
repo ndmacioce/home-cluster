@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tautulli-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tautulli
+  template:
+    metadata:
+      labels:
+        app: tautulli
+    spec:
+      containers:
+      - name: tautulli
+        image: tautulli/tautulli:v2.15.0
+        ports:
+        - containerPort: 8181
+        volumeMounts:
+        - name: tautulli-storage
+          mountPath: /config
+      volumes:
+      - name: tautulli-storage
+        persistentVolumeClaim:
+          claimName: tautulli-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tautulli-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: openebs-hostpath
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tautulli-service
+  namespace: default
+spec:
+  selector:
+    app: tautulli
+  ports:
+    - protocol: TCP
+      port: 8181
+      targetPort: 8181
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tautulli-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+spec:
+  ingressClassName: internal
+  tls:
+  - hosts:
+    - tautulli.ndm2.io
+    secretName: tautulli-tls
+  rules:
+  - host: tautulli.ndm2.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tautulli-service
+            port:
+              number: 8181
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tautulli-cert
+  namespace: default
+spec:
+  secretName: tautulli-tls
+  dnsNames:
+  - tautulli.ndm2.io
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
