@@ -156,6 +156,8 @@
       ],
       semanticCommitType: 'feat',
       semanticCommitScope: 'container',
+      automerge: true,
+      automergeType: 'branch',
     },
     {
       matchDatasources: [
@@ -166,6 +168,8 @@
       ],
       semanticCommitType: 'fix',
       semanticCommitScope: 'container',
+      automerge: true,
+      automergeType: 'branch',
     },
     {
       matchDatasources: [
